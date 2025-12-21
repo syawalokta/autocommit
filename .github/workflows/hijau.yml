@@ -17,8 +17,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -29,17 +28,16 @@ jobs:
 
       - name: Update files (WIB)
         run: |
+          git pull --rebase
           mkdir -p update
           rm -rf update/*
-          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
-          echo "$(TZ='Asia/Jakarta' date)" > update/$TIMESTAMP.txt
+          TS=$(date +'%Y-%m-%d_%H-%M')
+          echo "$(TZ='Asia/Jakarta' date)" > update/$TS.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
           echo "Last update: $(TZ='Asia/Jakarta' date)" > README.md
 
       - name: Commit and push
         run: |
-          git pull --rebase
           git add .
-          TS=$(date +"%Y-%m-%d_%H-%M-%S")
-          git commit -m "auto: $TS" || echo "No changes"
+          git commit -m "auto: $(date +'%Y-%m-%d_%H-%M-%S')" || echo "No changes"
           git push
