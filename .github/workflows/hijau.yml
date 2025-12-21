@@ -5,13 +5,19 @@ on:
     - cron: '*/2 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
+concurrency:
+  group: autocommit
+  cancel-in-progress: true
+
 jobs:
   add-files:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Set up Git
         run: |
@@ -30,6 +36,7 @@ jobs:
 
       - name: Commit and push
         run: |
+          git pull --rebase
           TS=$(date +"%Y-%m-%d_%H-%M-%S")
           git commit -m "auto: $TS" || echo "No changes"
           git push
