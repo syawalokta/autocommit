@@ -17,7 +17,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Set up Git
         run: |
@@ -32,11 +35,11 @@ jobs:
           echo "$(TZ='Asia/Jakarta' date)" > update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
           echo "Last update: $(TZ='Asia/Jakarta' date)" > README.md
-          git add .
 
       - name: Commit and push
         run: |
           git pull --rebase
+          git add .
           TS=$(date +"%Y-%m-%d_%H-%M-%S")
           git commit -m "auto: $TS" || echo "No changes"
           git push
