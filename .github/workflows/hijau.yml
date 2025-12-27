@@ -2,42 +2,40 @@ name: Auto Add Files
 
 on:
   schedule:
-    - cron: '*/2 * * * *'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
-concurrency:
-  group: autocommit
-  cancel-in-progress: true
+    - cron: '*/2 * * * *'  # Menjalankan commit otomatis setiap 2 menit
+  push:
+    branches:
+      - master  # Ubah dengan nama cabang yang sesuai jika diperlukan
 
 jobs:
   add-files:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: Checkout repository
+        uses: actions/checkout@v3
 
       - name: Set up Git
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git config --global user.name "MyDapitt"
+          git config --global user.email "dapitt@onee.eu.org"
 
-      - name: Update files (WIB)
+      - name: Add current date and time to file.txt in WIB
         run: |
-          git pull --rebase
-          mkdir -p update
-          rm -rf update/*
-          TS=$(date +'%Y-%m-%d_%H-%M')
-          echo "$(TZ='Asia/Jakarta' date)" > update/$TS.txt
+          rm -rf ./update/*
+          TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
+          echo "$(TZ='Asia/Jakarta' date)" > ./update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
-          echo "Last update: $(TZ='Asia/Jakarta' date)" > README.md
+          echo "Last update: $(TZ='Asia/Jakarta' date) by MyDapitt" > README.md
+          git add *  # Menambahkan yang telah dimodifikasi
 
-      - name: Commit and push
+      - name: Commit changes
         run: |
-          git add .
-          git commit -m "auto: $(date +'%Y-%m-%d_%H-%M-%S')" || echo "No changes"
+          TS=$(date +"%Y-%m-%d_%H-%M-%S")
+          git commit -m $TS
           git push
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  # Token akses GitHub otomatis
+        run: git push
