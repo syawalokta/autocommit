@@ -2,11 +2,9 @@ name: Auto Add Files
 
 on:
   schedule:
-    - cron: '*/2 * * * *'  # Menjalankan commit otomatis setiap 2 menit
-  push:
+    - cron: '*/2 * * * *'  
     branches:
-      - master  # Ubah dengan nama cabang yang sesuai jika diperlukan
-
+      - master  
 jobs:
   add-files:
     runs-on: ubuntu-latest
@@ -26,7 +24,7 @@ jobs:
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
           echo "$(TZ='Asia/Jakarta' date)" > ./update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
-          echo "Last update: $(TZ='Asia/Jakarta' date) by MyDapitt" > README.md
+          echo "Last update: $(TZ='Asia/Jakarta' date) by oktodev" > README.md
           git add *  # Menambahkan yang telah dimodifikasi
 
       - name: Commit changes
@@ -37,5 +35,5 @@ jobs:
 
       - name: Push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  # Token akses GitHub otomatis
+          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  
         run: git push
