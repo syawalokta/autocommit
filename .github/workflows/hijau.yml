@@ -15,8 +15,8 @@ jobs:
 
       - name: Set up Git
         run: |
-          git config --global user.name "MyDapitt"
-          git config --global user.email "dapitt@onee.eu.org"
+          git config --global user.name "syawalokta"
+          git config --global user.email "syawalokta14@gmail.com"
 
       - name: Add current date and time to file.txt in WIB
         run: |
