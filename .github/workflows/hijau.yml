@@ -2,9 +2,11 @@ name: Auto Add Files
 
 on:
   schedule:
-    - cron: '*/2 * * * *'  
+    - cron: '*/2 * * * *'  # Menjalankan commit otomatis setiap 2 menit
+  push:
     branches:
-      - master  
+      - main  # Ubah dengan nama cabang yang sesuai jika diperlukan
+
 jobs:
   add-files:
     runs-on: ubuntu-latest
@@ -16,7 +18,7 @@ jobs:
       - name: Set up Git
         run: |
           git config --global user.name "syawalokta"
-          git config --global user.email "syawalokta14@gmail.com"
+          git config --global user.email "syawaloktasyahputra@gmail.com"
 
       - name: Add current date and time to file.txt in WIB
         run: |
@@ -24,7 +26,7 @@ jobs:
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
           echo "$(TZ='Asia/Jakarta' date)" > ./update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
-          echo "Last update: $(TZ='Asia/Jakarta' date) by oktodev" > README.md
+          echo "Last update: $(TZ='Asia/Jakarta' date) by MyDapitt" > README.md
           git add *  # Menambahkan yang telah dimodifikasi
 
       - name: Commit changes
@@ -35,5 +37,5 @@ jobs:
 
       - name: Push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  
+          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  # Token akses GitHub otomatis
         run: git push
