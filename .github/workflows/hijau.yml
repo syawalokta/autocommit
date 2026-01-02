@@ -14,19 +14,28 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        
+
+      - name: Set up Git
+        run: |
+          git config --global user.name "syawalokta"
+          git config --global user.email "syawaloktasyahputra@gmail.com"
+
       - name: Add current date and time to file.txt in WIB
         run: |
           rm -rf ./update/*
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
-          echo "$(git rev-parse --short HEAD)" > ./timestamp/$TIMESTAMP.txt
+          echo "$(TZ='Asia/Jakarta' date)" > ./update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
+          echo "Last update: $(TZ='Asia/Jakarta' date) by MyDapitt" > README.md
           git add *  # Menambahkan yang telah dimodifikasi
 
       - name: Commit changes
         run: |
           TS=$(date +"%Y-%m-%d_%H-%M-%S")
-          git config --global user.name "syawalokta"
-          git config --global user.email "syawaloktasyahputra@gmail.com"
           git commit -m $TS
           git push
+
+      - name: Push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GHT_TOKEN }}  # Token akses GitHub otomatis
+        run: git push
