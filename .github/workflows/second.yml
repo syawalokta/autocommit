@@ -5,7 +5,7 @@ on:
     - cron: '*/5 * * * *'  # Menjalankan commit otomatis setiap 5 menit
   push:
     branches:
-      - master  # Ubah dengan nama cabang yang sesuai jika diperlukan
+      - main  # Ubah dengan nama cabang yang sesuai jika diperlukan
 
 jobs:
   add-files:
