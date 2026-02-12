@@ -26,7 +26,7 @@ jobs:
           TIMESTAMP=$(date +'%Y-%m-%d_%H-%M')
           echo "$(TZ='Asia/Jakarta' date)" > ./update/$TIMESTAMP.txt
           echo "$(TZ='Asia/Jakarta' date)" >> file.txt
-          echo "Last update: $(TZ='Asia/Jakarta' date) by MyDapitt" > README.md
+          echo "Last update: $(TZ='Asia/Jakarta' date) by Oktodev" > README.md
           git add *  # Menambahkan yang telah dimodifikasi
 
       - name: Commit changes
